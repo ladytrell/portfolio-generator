@@ -1,3 +1,6 @@
+
+const { writeFile, copyFile } = require('./utils/generate-site.js');
+const generatePage = require('./src/page-template.js');
 const inquirer = require('inquirer');
 
 const promptUser = () => {
@@ -104,15 +107,26 @@ Add a New Project
 };
 
 promptUser()
-  .then(promptProject)
-  .then(portfolioData => {
-    console.log(portfolioData);
+.then(promptProject)
+.then(portfolioData => {
+  return generatePage(portfolioData);
+})
+.then(pageHTML => {
+  return writeFile(pageHTML);
+})
+.then(writeFileResponse => {
+  console.log(writeFileResponse);
+  return copyFile();
+})
+.then(copyFileResponse => {
+  console.log(copyFileResponse);
+})
+.catch(err => {
+  console.log(err);
 });
 
 /*
 // Declare reference to the filesystem
-const fs = require('fs');
-const generatePage = require('./src/page-template.js');
 
 const pageHTML = generatePage(name, github);
 
